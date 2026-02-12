@@ -35,15 +35,28 @@ def fetch_trending_movies():
         return []
 
 def generate_json(movies):
+    output_movies = []
+    for m in movies:
+        title = m["title"]
+        # Clean smart quotes and weird characters
+        title = title.replace("\u201c", "").replace("\u201d", "").replace("\u2018", "").replace("\u2019", "")
+        # Remove any surrounding normal quotes too if present
+        title = title.strip('"').strip("'")
+        
+        output_movies.append({
+            "title": title,
+            "year": m["year"]
+        })
+
     output = {
         "last_updated": datetime.utcnow().isoformat() + "Z",
-        "movies": [m["title"] for m in movies] # Simple list of strings for our app matcher
+        "movies": output_movies
     }
     
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
         
-    print(f"✅ Generated {OUTPUT_FILE} with {len(movies)} movies.")
+    print(f"✅ Generated {OUTPUT_FILE} with {len(output_movies)} movies.")
 
 if __name__ == "__main__":
     print("🎬 Fetching Trending Movies from TMDB...")

@@ -20,6 +20,10 @@ class FeaturedContentManager: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let featuredJSONURL = URL(string: "https://raw.githubusercontent.com/hardeepsasan/IPTV_Emulator/main/featured.json")!
     
+    // Optimization Constants
+    private let targetCategoryIDs: Set<Int> = [1, 3, 6, 12, 15, 45, 63, 65]
+    private let matchCacheKey = "featured_match_cache_v4"
+    
     // Dependencies
     private let client: StalkerClient
     private let playbackManager: PlaybackManager
@@ -32,10 +36,8 @@ class FeaturedContentManager: ObservableObject {
         self.playbackManager = playbackManager
         self.watchlistManager = watchlistManager
         
-        // Re-evaluate when dependencies change
-        // We listen to cacheCount since movieCache is not @Published (to avoid UI storms)
         client.$cacheCount
-            .combineLatest(playbackManager.$movieHistory, watchlistManager.$watchlist)
+            .combineLatest(playbackManager.$watchingItems, watchlistManager.$watchlist)
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .sink { [weak self] _, _, _ in
                 self?.refreshFeaturedContent()
@@ -44,69 +46,70 @@ class FeaturedContentManager: ObservableObject {
     }
     
     func refreshFeaturedContent() {
-        // Use movieCache which is the global index
         guard !client.movieCache.isEmpty else { return }
-        
-        // Prevent multiple fetches if already successful or loading
         if isLoading { return }
         
         isLoading = true
         
-        // 1. Fetch External JSON
-        fetchExternalFeaturedList { [weak self] titles in
+        fetchExternalFeaturedList { [weak self] externalMovies in
             guard let self = self else { return }
             
-            // 2. Try matching External Titles against Global Cache
-            let matchedMovies = self.findMatches(for: titles)
-            
-            if !matchedMovies.isEmpty {
-                self.updateHero(with: matchedMovies, source: .featured)
-                return
-            }
-            
-            let allCachedMovies = Array(self.client.movieCache.values)
-            
-            // 3. Fallback: Continue Watching
-            // Get recent history movies that are NOT finished (progress < 0.95)
-            // We re-fetch from cache to ensure valid data
-            let history = self.playbackManager.movieHistory
-                .filter { $0.progress < 0.95 && $0.progress > 0.05 }
-                .sorted { $0.lastPlayed > $1.lastPlayed }
-                .prefix(5)
-                .compactMap { historyItem in
-                    self.client.movieCache[historyItem.id]
-                }
-            
-            if !history.isEmpty {
-                self.updateHero(with: Array(history), source: .continueWatching)
-                return
-            }
-            
-            // 4. Fallback: Watchlist
-            let watchlist = self.watchlistManager.watchlist
-                .prefix(5)
-                .compactMap { watchlistItem in
-                    self.client.movieCache[watchlistItem.id]
+            Task {
+                // 1. Try Cached Mappings (Instant)
+                let cachedMatches = self.loadMatchesFromCache(for: externalMovies)
+                if cachedMatches.count >= 5 { // Require decent overlap to use cache
+                    print("FeaturedContentManager: Using \(cachedMatches.count) cached matches.")
+                    self.updateHero(with: cachedMatches, source: .featured)
+                    return
                 }
                 
-            if !watchlist.isEmpty {
-                self.updateHero(with: Array(watchlist), source: .watchlist)
-                return
-            }
-            
-            // 5. Fallback: Latest Added (Last 5 movies globally by ID or Added Date)
-            // Sorting all movies might be heavy if cache is huge (20k items), but usually acceptible on modern iOS.
-            // Optimization: If cache is huge, maybe just take random or rely on server sort?
-            // For now, sorting by ID descending is a good proxy for "Latest".
-            let latest = allCachedMovies.sorted {
-                // Try to use 'added' date string if available, else ID
-                if let d1 = $0.added, let d2 = $1.added, d1 != d2 {
-                    return d1 > d2
+                // 2. Perform Optimized Search (Parallel + Category Filtered + Year Aware)
+                let matchedMovies = await self.findMatches(for: externalMovies)
+                
+                if !matchedMovies.isEmpty {
+                    self.saveMatchesToCache(matchedMovies, for: externalMovies)
+                    self.updateHero(with: matchedMovies, source: .featured)
+                    return
                 }
-                return $0.id > $1.id
-            }.prefix(5)
-            
-            self.updateHero(with: Array(latest), source: .latestAdded)
+                
+                // 3. Fallback Chain (Async)
+                let allCachedMovies = Array(self.client.movieCache.values)
+                
+                // Fallback: Continue Watching
+                let history = self.playbackManager.watchingItems
+                    .filter { 
+                        let progress = $0.currentWaitTime / $0.duration
+                        return progress < 0.95 && progress > 0.05 
+                    }
+                    .sorted { $0.lastUpdated > $1.lastUpdated }
+                    .prefix(5)
+                    .compactMap { self.client.movieCache[$0.movie.id] }
+                
+                if !history.isEmpty {
+                    self.updateHero(with: Array(history), source: .continueWatching)
+                    return
+                }
+                
+                // Fallback: Watchlist
+                let watchlist = self.watchlistManager.watchlist
+                    .prefix(5)
+                    .compactMap { self.client.movieCache[$0.id] }
+                    
+                if !watchlist.isEmpty {
+                    self.updateHero(with: Array(watchlist), source: .watchlist)
+                    return
+                }
+                
+                // Fallback: Latest Added
+                let latest = allCachedMovies.sorted {
+                    if let d1 = $0.added, let d2 = $1.added, d1 != d2 {
+                        return d1 > d2
+                    }
+                    return $0.id > $1.id
+                }.prefix(5)
+                
+                self.updateHero(with: Array(latest), source: .latestAdded)
+            }
         }
     }
     
@@ -118,51 +121,182 @@ class FeaturedContentManager: ObservableObject {
         }
     }
     
-    private func fetchExternalFeaturedList(completion: @escaping ([String]) -> Void) {
-        print("FeaturedContentManager: Fetching from \(featuredJSONURL.absoluteString)")
-        
-        URLSession.shared.dataTask(with: featuredJSONURL) { data, response, error in
-            if let error = error {
-                print("FeaturedContentManager: Fetch error: \(error.localizedDescription)")
+    private func fetchExternalFeaturedList(completion: @escaping ([(title: String, year: String?)]) -> Void) {
+        URLSession.shared.dataTask(with: featuredJSONURL) { data, _, _ in
+            guard let data = data,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let movieDicts = json["movies"] as? [[String: Any]] else {
                 completion([])
                 return
             }
             
-            guard let data = data else {
-                completion([])
-                return
+            let movies = movieDicts.compactMap { d -> (title: String, year: String?)? in
+                guard let title = d["title"] as? String else { return nil }
+                return (title: title, year: d["year"] as? String)
             }
             
-            do {
-                // Decode JSON: { "last_updated": "...", "movies": ["Title 1", ...] }
-                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let movies = json["movies"] as? [String] {
-                    print("FeaturedContentManager: Fetched \(movies.count) titles.")
-                    completion(movies)
-                } else {
-                    print("FeaturedContentManager: Invalid JSON format")
-                    completion([])
-                }
-            } catch {
-                print("FeaturedContentManager: JSON Decode error: \(error)")
-                completion([])
-            }
+            completion(movies)
         }.resume()
     }
     
-    private func findMatches(for titles: [String]) -> [Movie] {
-        var matches: [Movie] = []
-        let allMovies = Array(client.movieCache.values)
+    private func findMatches(for externalMovies: [(title: String, year: String?)]) async -> [Movie] {
+        let startTime = Date()
         
-        for title in titles {
-            // Find first movie that matches fuzzy criteria
-            if let match = allMovies.first(where: { FuzzyMatcher.match(title: title, candidate: $0.name) }) {
-                if !matches.contains(where: { $0.id == match.id }) {
-                    matches.append(match)
+        let filteredMovies = client.movieCache.values.filter { movie in
+            if let catIdStr = movie.categoryId, let catId = Int(catIdStr) {
+                return targetCategoryIDs.contains(catId)
+            }
+            return false
+        }
+        
+        print("FeaturedContentManager: Search space: \(filteredMovies.count) movies. Target: \(externalMovies.count) titles.")
+        
+        let normalizedCache = filteredMovies.map { movie in
+            (movie: movie, normalized: FuzzyMatcher.normalize(movie.name))
+        }
+        
+        return await withTaskGroup(of: Movie?.self) { group in
+            var foundMatches: [Movie] = []
+            let limit = 10
+            
+            for ext in externalMovies {
+                group.addTask {
+                    let normalizedTitle = FuzzyMatcher.normalize(ext.title)
+                    for entry in normalizedCache {
+                        // Check if year matches if we have it
+                        if let extYear = ext.year, let movieYear = entry.movie.year {
+                            // If years are different, skip even if titles match
+                            if !movieYear.contains(extYear) && !extYear.contains(movieYear) {
+                                continue
+                            }
+                        }
+                        
+                        if FuzzyMatcher.quickMatch(normalizedTitle, entry.normalized) {
+                            return entry.movie
+                        }
+                    }
+                    return nil
+                }
+            }
+            
+            for await match in group {
+                if let match = match, !foundMatches.contains(where: { $0.id == match.id }) {
+                    foundMatches.append(match)
+                    if foundMatches.count >= limit {
+                        group.cancelAll()
+                        break
+                    }
+                }
+            }
+            
+            let duration = Date().timeIntervalSince(startTime)
+            print("FeaturedContentManager: Search completed in \(String(format: "%.3f", duration))s. Found \(foundMatches.count) items.")
+            return foundMatches
+        }
+    }
+    
+    // MARK: - Persistent Caching
+    
+    private func loadMatchesFromCache(for externalMovies: [(title: String, year: String?)]) -> [Movie] {
+        guard let data = UserDefaults.standard.dictionary(forKey: matchCacheKey) as? [String: String] else {
+            return []
+        }
+        
+        var matches: [Movie] = []
+        for ext in externalMovies {
+            if let movieId = data[ext.title], let movie = client.movieCache[movieId] {
+                matches.append(movie)
+            }
+        }
+        return matches
+    }
+    
+    private func saveMatchesToCache(_ movies: [Movie], for originalMovies: [(title: String, year: String?)]) {
+        var cacheData: [String: String] = UserDefaults.standard.dictionary(forKey: matchCacheKey) as? [String: String] ?? [:]
+        
+        for movie in movies {
+            let normalizedMovie = FuzzyMatcher.normalize(movie.name)
+            if let matchingExt = originalMovies.first(where: { FuzzyMatcher.quickMatch(FuzzyMatcher.normalize($0.title), normalizedMovie) }) {
+                cacheData[matchingExt.title] = movie.id
+            }
+        }
+        
+        UserDefaults.standard.set(cacheData, forKey: matchCacheKey)
+    }
+}
+
+// MARK: - Helper: Fuzzy Matcher (Optimized)
+fileprivate struct FuzzyMatcher {
+    static func quickMatch(_ normalizedTitle: String, _ normalizedCandidate: String, threshold: Double = 0.85) -> Bool {
+        // 1. Exact match is always a win
+        if normalizedCandidate == normalizedTitle { return true }
+        
+        // 2. Strict Substring Check
+        // Only allow a 'contains' match if it represents a clear title match (word boundary)
+        if normalizedCandidate.contains(normalizedTitle) {
+            // High confidence if it's the beginning of the name (e.g., "Gladiator 2" matches "Gladiator 2 - 4K")
+            if normalizedCandidate.hasPrefix(normalizedTitle) {
+                return true
+            }
+            
+            // If it's in the middle, check word boundaries (e.g., "GOAT" shouldn't match "Black Goat")
+            // Use regex for word boundary check (\b)
+            let pattern = "\\b\(NSRegularExpression.escapedPattern(for: normalizedTitle))\\b"
+            if normalizedCandidate.range(of: pattern, options: .regularExpression) != nil {
+                // To be safe, if the candidate is much longer than the title, it's risky
+                // e.g., "The" is in "The Lord of the Rings" via word boundary but shouldn't match
+                if normalizedTitle.count >= (normalizedCandidate.count / 2) || normalizedTitle.count > 5 {
+                    return true
                 }
             }
         }
         
-        return matches
+        // 3. Fuzzy Levenshtein (Last Resort)
+        let t1 = normalizedTitle.count
+        let t2 = normalizedCandidate.count
+        let maxL = max(t1, t2)
+        
+        // Early exit for length mismatch
+        let allowedDistance = Int(Double(maxL) * (1.0 - threshold))
+        if abs(t1 - t2) > allowedDistance { return false }
+        
+        let distance = levenshtein(normalizedTitle, normalizedCandidate)
+        let similarity = 1.0 - (Double(distance) / Double(maxL))
+        return similarity >= threshold
+    }
+    
+    static func normalize(_ input: String) -> String {
+        // Strip common suffixes that interfere with matching
+        return input.lowercased()
+            .replacingOccurrences(of: " (hindi)", with: "")
+            .replacingOccurrences(of: " (4k)", with: "")
+            .replacingOccurrences(of: " (dual)", with: "")
+            .replacingOccurrences(of: "the ", with: "")
+            .replacingOccurrences(of: ".", with: " ")
+            .replacingOccurrences(of: "_", with: " ")
+            .replacingOccurrences(of: "-", with: " ")
+            .replacingOccurrences(of: ":", with: "")
+            .filter { !$0.isPunctuation }
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    private static func levenshtein(_ s1: String, _ s2: String) -> Int {
+        let s1Chars = Array(s1), s2Chars = Array(s2)
+        let s1Count = s1Chars.count, s2Count = s2Chars.count
+        if s1Count == 0 { return s2Count }
+        if s2Count == 0 { return s1Count }
+        
+        var v0 = [Int](0...s2Count)
+        var v1 = [Int](repeating: 0, count: s2Count + 1)
+        
+        for i in 0..<s1Count {
+            v1[0] = i + 1
+            for j in 0..<s2Count {
+                let cost = s1Chars[i] == s2Chars[j] ? 0 : 1
+                v1[j + 1] = min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
+            }
+            v0 = v1
+        }
+        return v0[s2Count]
     }
 }
