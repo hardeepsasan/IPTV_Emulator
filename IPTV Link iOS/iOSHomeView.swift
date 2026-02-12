@@ -32,7 +32,6 @@ struct iOSHomeView: View {
                 MoviesTabView(
                     client: client,
                     categories: $categories,
-                    featuredMovie: $featuredMovie,
                     isLoading: $isLoading,
                     selectedMovie: $selectedMovie,
                     selectedSeries: $selectedSeries,
@@ -137,7 +136,7 @@ struct iOSHomeView: View {
             self.categories = cats
             
             if let firstCat = cats.first {
-                let movs = try await client.getMovies(categoryId: firstCat.id, pageLimit: 1)
+                _ = try await client.getMovies(categoryId: firstCat.id, pageLimit: 1)
                 // Old featured logic removed, handled by FeaturedContentManager
             }
         } catch {
@@ -172,7 +171,7 @@ struct iOSHomeView: View {
 struct MoviesTabView: View {
     @ObservedObject var client: StalkerClient
     @Binding var categories: [Category]
-    @Binding var featuredMovie: Movie?
+    // featuredMovie removed
     @Binding var isLoading: Bool
     
     @Binding var selectedMovie: Movie?

@@ -4,6 +4,7 @@ import Combine
 
 @MainActor
 public class WatchlistManager: ObservableObject {
+    public static let shared = WatchlistManager()
     @Published public var watchlist: [Movie] = []
     
     private let saveKey = "user_watchlist"

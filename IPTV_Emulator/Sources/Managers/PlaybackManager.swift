@@ -6,6 +6,7 @@ import Combine
 /// Persists data to UserDefaults.
 @MainActor
 public class PlaybackManager: ObservableObject {
+    public static let shared = PlaybackManager()
     @Published public var watchingItems: [WatchingItem] = []
     
     private let saveKey = "user_continue_watching"

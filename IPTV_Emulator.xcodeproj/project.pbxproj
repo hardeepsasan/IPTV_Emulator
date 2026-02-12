@@ -70,6 +70,7 @@
 				"Sources/Extensions/String+Identifiable.swift",
 				"Sources/Extensions/View+SeriesDetailOverlay.swift",
 				Sources/Managers/DeviceInfoManager.swift,
+				Sources/Managers/FeaturedContentManager.swift,
 				Sources/Managers/IdentityGenerator.swift,
 				Sources/Managers/LogoService.swift,
 				Sources/Managers/ManifestGenerator.swift,
