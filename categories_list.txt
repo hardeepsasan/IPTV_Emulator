@@ -1,0 +1,102 @@
+Performing Handshake...
+Handshake Success! Token: 5753BA20B02AB398802EEC7D9165E19A
+Fetching Profile (Auth Confirmation)...
+
+Fetching Categories...
+Found 94 categories.
+ID     Title                                    Alias
+------------------------------------------------------------
+*      All                                      *
+1      HINDI MOVIES | LATEST                    HINDI_MOVIES__LATEST
+2      HINDI MOVIES | COLLECTION                HINDI_MOVIES__COLLECTION
+3      HINDI DUB | SOUTH MOVIES                 HINDI_MOVIES__SOUTH_DUB
+4      HINDI DUB | ENGLISH MOVIES               HINDI_MOVIES__ENG_DUB
+5      HINDI TV SHOWS                           HINDI_TV_SHOWS
+6      HINDI WEB SERIES                         HINDI_WEB_SERIES
+7      HINDI DUB | ENGLISH SERIES               HINDI_WEB_SERIES__ENG_DUB
+8      PUNJABI MOVIES | LATEST                  PUNJAB_MOVIES
+9      PUNJABI TV SHOW                          PUNJABI_TV_SHOW
+10     PUNJABI WEB SERIES                       PUNJABI_WEB_SERIES
+11     PUNJABI RELIGIOUS                        PUNJABI_RELIGIOUS
+12     ENGLISH MOVIES | LATEST                  ENGLISH_MOVIES__LATEST
+13     ENGLISH MOVIES | COLLECTION              ENGLISH_MOVIES__COLLECTION
+14     ENGLISH DOCU | MOVIES                    ENGLISH_DOCUMENTARIES
+15     ENGLISH TV SHOW                          ENGLISH_TV_SHOW
+16     KIDS MOVIES                              KIDS_MOVIES
+17     SPORTS - PPV EVENTS                      KIDS_NURSERY_RHYMES
+18     URDU MOVIES                              URDU_MOVIES
+19     URDU TV SHOWS | DRAMAS                   URDU_TV_SHOWS
+20     URDU STAGE SHOWS                         URDU_STAGE_SHOWS
+21     GUJARATI MOVIES                          GUJARATI_MOVIES
+22     GUJARATI TV SHOWS                        GUJARATI_TV_SHOWS
+23     GUJARATI WEB SERIES                      GUJARATI_WEB_SERIES
+24     BENGALI MOVIES                           BENGALI_MOVIES
+25     BENGALI TV SHOWS                         BENGALI_TV_SHOWS
+26     BENGALI WEB SERIES                       BENGALI_WEB_SERIES
+27     TAMIL MOVIES | LATEST                    TAMIL_MOVIES
+28     TAMIL TV SHOWS                           TAMIL_TV_SHOWS
+29     TAMIL WEB SERIES                         TAMIL_WEB_SERIES
+30     TELUGU MOVIES | LATEST                   TELUGU_MOVIES
+31     TELUGU TV SHOWS                          TELUGU_TV_SHOWS
+32     TELUGU WEB SERIES                        TELUGU_WEB_SERIES
+33     MALAYALAM MOVIES | LATEST                MALAYALAM_MOVIES
+34     MALAYALAM TV SHOWS                       MALAYALAM_TV_SHOWS
+35     MALAYALAM WEB SERIES                     MALAYALAM_WEB_SERIES
+36     KANNADA MOVIES | LATEST                  KANNADA_MOVIES
+37     KANNADA TV SHOWS                         KANNADA_TV_SHOWS
+38     KANNADA WEB SERIES                       KANNADA_WEB_SERIES
+39     MARATHI MOVIES                           MARATHI_MOVIES
+40     MARATHI TV SHOWS                         MARATHI_TV_SHOWS
+41     MARATHI WEB SERIES                       MARATHI_WEB_SERIES
+43     SPORTS - CRICKET                         TURKISH_SERIES
+44     HINDI MOVIES | ENG SUBTITLE              HINDI_MOVIES__ENG_SUBS
+45     ENGLISH WEB SERIES                       ENGLISH_WEB_SERIES
+46     ANIME COLLECTION                         ANIME_MOVIESSERIES
+47     KIDS TV SHOW                             KIDS_TV_SHOW
+48     KIDS HINDI COLLECTION                    KIDS_HINDI_MOVIESSHOW
+49     PUNJABI MOVIES | COLLECTION              PUNJABI_MOVIES__COLLECTION
+50     TAMIL MOVIES COLLECTION                  TAMIL_MOVIES_COLLECTION
+51     TAMIL DUB MOVIES                         TAMIL_DUB_MOVIES
+52     TELUGU MOVIES | COLLECTION               TELUGU_MOVIES__COLLECTION
+53     TELUGU DUB MOVIES                        TELUGU_DUB_MOVIES
+54     MALAYALAM MOVIES | COLLECTION            MALAYALAM_MOVIES__COLLECTION
+55     MALAYALAM DUB MOVIES                     MALAYALAM_DUB_MOVIES
+56     KANNADA MOVIES | COLLECTION              KANNADA_MOVIES__COLLECTION
+57     KANNADA DUB MOVIES                       KANNADA_DUB_MOVIES
+58     HINDI DUB | K-DRAMAS                     HINDI_DUB_K-DRAMAS
+59     HINDI RELIGIOUS                          HINDI_RELIGIOUS
+60     K-DRAMAS COLLECTION                      ENGLISH_DUB__K-DRAMAS
+61     HINDI DUB | ANIME                        HINDI_DUB__ANIME
+62     HINDI WEB SERIES (18+)                   HINDI_WEB_SERIES_18
+63     HINDI MOVIES | CAM                       HINDI_MOVIES__CAM_PREDVD
+64     PUNJABI MOVIES | CAM                     PUNJABI_MOVIES__CAM_PREDVD
+65     ENGLISH MOVIES | CAM                     ENGLISH_MOVIES__CAM_PREDVD
+66     KIDS MOVIES | CAM                        KIDS_MOVIES__CAM_PREDVD
+67     GUJARATI MOVIES | CAM                    GUJARATI_MOVIES__CAM_PREDVD
+68     BENGALI MOVIES | CAM                     BENGALI_MOVIES__CAM_PREDVD
+69     TAMIL MOVIES | CAM                       TAMIL_MOVIES__CAM_PREDVD
+70     TELUGU MOVIES | CAM                      TELUGU_MOVIES__CAM_PREDVD
+71     MALAYALAM MOVIES | CAM                   MALAYALAM_MOVIES__CAM_PREDVD
+72     KANNADA MOVIES | CAM                     KANNADA_MOVIES__CAM_PREDVD
+73     MARATHI MOVIES | CAM                     MARATHI_MOVIES__CAM_PREDVD
+74     PUNJABI MOVIES | ENG SUBTITLE            PUNJABI_MOVIES__ENG_SUBTITLE
+75     HINDI MOVIES | 4K                        HINDI_MOVIES__4K
+76     PUNJABI MOVIES | 4K                      PUNJABI_MOVIES__4K
+77     ENGLISH MOVIES | 4K                      ENGLISH_MOVIES__4K
+78     TAMIL MOVIES | 4K                        TAMIL_MOVIES__4K
+79     TELUGU MOVIES | 4K                       TELUGU_MOVIES__4K
+80     MALAYALAM MOVIES | 4K                    MALAYALAM_MOVIES__4K
+81     KANNADA MOVIES | 4K                      KANNADA_MOVIES__4K
+82     HINDI DUB | SOUTH MOVIES 4K              HINDI_DUB__SOUTH_MOVIES_4K
+83     ADULTS                                   ADULTS
+84     ENGLISH DOCU | SERIES                    ENGLISH_DOCUMENTARIES__SERIES
+85     GUJARATI MOVIES 4K                       GUJARATI_MOVIES_4K
+86     MARATHI MOVIES | 4K                      MARATHI_MOVIES_4K
+87     BENGALI MOVIES 4K                        BENGALI_MOVIES_4K
+88     KIDS MOVIES | 4K                         KIDS_MOVIES_4K
+89     FRENCH MOVIES                            FRENCH_MOVIES
+90     FRENCH MOVIES | 4K                       FRENCH_MOVIES_4K
+91     FRENCH SERIES                            FRENCH_SERIES
+92     SPANISH MOVIES                           SPANISH_MOVIES
+93     SPANISH MOVIES | 4K                      SPANISH_MOVIES__4K
+94     SPANISH SERIES                           SPANISH_SERIES
