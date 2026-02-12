@@ -1,21 +1,69 @@
 {
-  "last_updated": "2026-02-12T04:58:38.757552Z",
+  "last_updated": "2026-02-12T05:02:36.303131Z",
   "movies": [
-    "Primate",
-    "The Housemaid",
-    "Marty Supreme",
-    "Hamnet",
-    "\u201cWuthering Heights\u201d",
-    "Zootopia 2",
-    "GOAT",
-    "Send Help",
-    "The Muppet Show",
-    "Crime 101",
-    "Predator: Badlands",
-    "The Wrecking Crew",
-    "Is This Thing On?",
-    "We Bury the Dead",
-    "Greenland 2: Migration",
-    "Dracula"
+    {
+      "title": "Primate",
+      "year": "2026"
+    },
+    {
+      "title": "The Housemaid",
+      "year": "2025"
+    },
+    {
+      "title": "Marty Supreme",
+      "year": "2025"
+    },
+    {
+      "title": "Hamnet",
+      "year": "2025"
+    },
+    {
+      "title": "Wuthering Heights",
+      "year": "2026"
+    },
+    {
+      "title": "Zootopia 2",
+      "year": "2025"
+    },
+    {
+      "title": "GOAT",
+      "year": "2026"
+    },
+    {
+      "title": "Send Help",
+      "year": "2026"
+    },
+    {
+      "title": "The Muppet Show",
+      "year": "2026"
+    },
+    {
+      "title": "Crime 101",
+      "year": "2026"
+    },
+    {
+      "title": "Predator: Badlands",
+      "year": "2025"
+    },
+    {
+      "title": "The Wrecking Crew",
+      "year": "2026"
+    },
+    {
+      "title": "Is This Thing On?",
+      "year": "2025"
+    },
+    {
+      "title": "We Bury the Dead",
+      "year": "2026"
+    },
+    {
+      "title": "Greenland 2: Migration",
+      "year": "2026"
+    },
+    {
+      "title": "Dracula",
+      "year": "2025"
+    }
   ]
 }
