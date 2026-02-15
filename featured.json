@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-14T02:42:26.742329Z",
+  "last_updated": "2026-02-15T02:55:58.963329Z",
   "movies": [
     {
       "title": "Primate",
@@ -26,14 +26,6 @@
       "year": "2025"
     },
     {
-      "title": "GOAT",
-      "year": "2026"
-    },
-    {
-      "title": "Love Me Love Me",
-      "year": "2026"
-    },
-    {
       "title": "Zootopia 2",
       "year": "2025"
     },
@@ -42,11 +34,19 @@
       "year": "2026"
     },
     {
-      "title": "The Muppet Show",
+      "title": "GOAT",
       "year": "2026"
     },
     {
-      "title": "Send Help",
+      "title": "Love Me Love Me",
+      "year": "2026"
+    },
+    {
+      "title": "Now You See Me: Now You Don't",
+      "year": "2025"
+    },
+    {
+      "title": "The Muppet Show",
       "year": "2026"
     },
     {
@@ -54,12 +54,8 @@
       "year": "2026"
     },
     {
-      "title": "Avatar: Fire and Ash",
-      "year": "2025"
-    },
-    {
-      "title": "Is This Thing On?",
-      "year": "2025"
+      "title": "Send Help",
+      "year": "2026"
     },
     {
       "title": "Greenland 2: Migration",
