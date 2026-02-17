@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-16T02:51:17.400758Z",
+  "last_updated": "2026-02-17T02:47:59.612541Z",
   "movies": [
     {
       "title": "Primate",
@@ -18,10 +18,6 @@
       "year": "2025"
     },
     {
-      "title": "Predator: Badlands",
-      "year": "2025"
-    },
-    {
       "title": "Hamnet",
       "year": "2025"
     },
@@ -30,23 +26,15 @@
       "year": "2026"
     },
     {
+      "title": "Predator: Badlands",
+      "year": "2025"
+    },
+    {
       "title": "Zootopia 2",
       "year": "2025"
     },
     {
-      "title": "Love Me Love Me",
-      "year": "2026"
-    },
-    {
       "title": "Crime 101",
-      "year": "2026"
-    },
-    {
-      "title": "The Muppet Show",
-      "year": "2026"
-    },
-    {
-      "title": "Send Help",
       "year": "2026"
     },
     {
@@ -54,8 +42,16 @@
       "year": "2025"
     },
     {
-      "title": "Is This Thing On?",
+      "title": "Avatar: Fire and Ash",
       "year": "2025"
+    },
+    {
+      "title": "The Wrecking Crew",
+      "year": "2026"
+    },
+    {
+      "title": "The Muppet Show",
+      "year": "2026"
     }
   ]
 }
