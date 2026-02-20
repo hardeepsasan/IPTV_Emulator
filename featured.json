@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-19T02:49:51.384726Z",
+  "last_updated": "2026-02-20T02:44:38.022956Z",
   "movies": [
     {
       "title": "Mercy",
@@ -10,27 +10,23 @@
       "year": "2026"
     },
     {
-      "title": "Primate",
-      "year": "2026"
+      "title": "Marty Supreme",
+      "year": "2025"
     },
     {
       "title": "Wuthering Heights",
       "year": "2026"
     },
     {
-      "title": "Marty Supreme",
-      "year": "2025"
-    },
-    {
-      "title": "The Housemaid",
-      "year": "2025"
-    },
-    {
-      "title": "Crime 101",
+      "title": "GOAT",
       "year": "2026"
     },
     {
-      "title": "Hamnet",
+      "title": "Primate",
+      "year": "2026"
+    },
+    {
+      "title": "The Housemaid",
       "year": "2025"
     },
     {
@@ -38,19 +34,19 @@
       "year": "2025"
     },
     {
-      "title": "GOAT",
-      "year": "2026"
+      "title": "Hamnet",
+      "year": "2025"
     },
     {
       "title": "Zootopia 2",
       "year": "2025"
     },
     {
-      "title": "Now You See Me: Now You Don't",
-      "year": "2025"
+      "title": "Crime 101",
+      "year": "2026"
     },
     {
-      "title": "Is This Thing On?",
+      "title": "Now You See Me: Now You Don't",
       "year": "2025"
     },
     {
@@ -58,8 +54,8 @@
       "year": "2025"
     },
     {
-      "title": "Send Help",
-      "year": "2026"
+      "title": "Is This Thing On?",
+      "year": "2025"
     }
   ]
 }
