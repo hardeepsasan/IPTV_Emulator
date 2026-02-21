@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-20T02:44:38.022956Z",
+  "last_updated": "2026-02-21T02:38:39.001588Z",
   "movies": [
     {
       "title": "Mercy",
@@ -10,23 +10,19 @@
       "year": "2026"
     },
     {
-      "title": "Marty Supreme",
-      "year": "2025"
-    },
-    {
       "title": "Wuthering Heights",
       "year": "2026"
     },
     {
-      "title": "GOAT",
-      "year": "2026"
+      "title": "Marty Supreme",
+      "year": "2025"
     },
     {
       "title": "Primate",
       "year": "2026"
     },
     {
-      "title": "The Housemaid",
+      "title": "Hamnet",
       "year": "2025"
     },
     {
@@ -34,7 +30,11 @@
       "year": "2025"
     },
     {
-      "title": "Hamnet",
+      "title": "GOAT",
+      "year": "2026"
+    },
+    {
+      "title": "The Housemaid",
       "year": "2025"
     },
     {
@@ -48,6 +48,10 @@
     {
       "title": "Now You See Me: Now You Don't",
       "year": "2025"
+    },
+    {
+      "title": "Pavane",
+      "year": "2026"
     },
     {
       "title": "Avatar: Fire and Ash",
