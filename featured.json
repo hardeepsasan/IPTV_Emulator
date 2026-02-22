@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-21T02:38:39.001588Z",
+  "last_updated": "2026-02-22T02:51:14.055037Z",
   "movies": [
     {
       "title": "Mercy",
@@ -10,27 +10,19 @@
       "year": "2026"
     },
     {
-      "title": "Wuthering Heights",
-      "year": "2026"
+      "title": "Hamnet",
+      "year": "2025"
     },
     {
       "title": "Marty Supreme",
       "year": "2025"
     },
     {
-      "title": "Primate",
+      "title": "Wuthering Heights",
       "year": "2026"
     },
     {
-      "title": "Hamnet",
-      "year": "2025"
-    },
-    {
-      "title": "Predator: Badlands",
-      "year": "2025"
-    },
-    {
-      "title": "GOAT",
+      "title": "Scream 7",
       "year": "2026"
     },
     {
@@ -38,7 +30,7 @@
       "year": "2025"
     },
     {
-      "title": "Zootopia 2",
+      "title": "Predator: Badlands",
       "year": "2025"
     },
     {
@@ -46,11 +38,19 @@
       "year": "2026"
     },
     {
-      "title": "Now You See Me: Now You Don't",
+      "title": "Zootopia 2",
       "year": "2025"
     },
     {
-      "title": "Pavane",
+      "title": "Firebreak",
+      "year": "2026"
+    },
+    {
+      "title": "Primate",
+      "year": "2026"
+    },
+    {
+      "title": "GOAT",
       "year": "2026"
     },
     {
@@ -58,8 +58,24 @@
       "year": "2025"
     },
     {
-      "title": "Is This Thing On?",
+      "title": "The Swedish Connection",
+      "year": "2026"
+    },
+    {
+      "title": "Now You See Me: Now You Don't",
       "year": "2025"
+    },
+    {
+      "title": "The Wrecking Crew",
+      "year": "2026"
+    },
+    {
+      "title": "Rental Family",
+      "year": "2025"
+    },
+    {
+      "title": "The Dreadful",
+      "year": "2026"
     }
   ]
 }
